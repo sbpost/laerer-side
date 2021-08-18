@@ -1,0 +1,43 @@
+body {background-color: #fcefe4}
+
+.btn-primary {
+    color: #000000;
+    background-color: #b1e3cf;
+    border-color: #b1e3cf;
+}
+
+.btn-primary:hover {
+    color: #212529;
+    background-color: #52bebe;
+    border-color: #8ad3d3
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.text-small {
+  font-size: 85%;
+}
+
+.dropdown-toggle {
+  outline: 0;
+}
+
+.buttonContainer {
+  display: table;
+  width: 100%;
+}
+
+#googleButton {
+  display: table-cell;
+  vertical-align: middle
+}
+
+.center {
+  margin: auto;
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px;
+}
