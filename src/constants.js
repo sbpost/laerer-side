@@ -8,7 +8,7 @@ const GOOGLE_DRIVE_LINK =
 // const MATERIALE_LINK = "../data/materiale-kortlægning2.csv";
 // const MATERIALE_LINK = "./data/m-k.csv";
 const MATERIALE_LINK =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLnyKwTVVkU7ubq7A76PvIKYQ90u84Ugoa0iIqbm2nxgu-qf8UCdhETQIM25rEGBKXWIj1YflUszrY/pubhtml?gid=37440190&single=true";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLnyKwTVVkU7ubq7A76PvIKYQ90u84Ugoa0iIqbm2nxgu-qf8UCdhETQIM25rEGBKXWIj1YflUszrY/pub?gid=37440190&single=true&output=csv";
 
 const COLORS = [
   "#d0c6ce",
