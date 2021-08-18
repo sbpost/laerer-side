@@ -15,16 +15,25 @@ const getGoogleData = async () => {
   // $("#waiter").addClass("hidden");
   $("#map-spinner").removeClass("hidden");
 
-  let activity_data = await d3.csv(
-    // Published csv file w activities
-    GOOGLE_DRIVE_LINK
-  );
+  let activity_data = await d3
+    .csv(
+      // Published csv file w activities
+      GOOGLE_DRIVE_LINK
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+
   activity_data.forEach((d) => fixData(d, "")); // fix klassetrin + tema
 
-  let materials_data = await d3.csv(
-    // Published csv file w materials
-    MATERIALE_LINK
-  );
+  let materials_data = await d3
+    .csv(
+      // Published csv file w materials
+      MATERIALE_LINK
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
   materials_data.forEach((d) => fixData(d, "")); // fix klassetrin + tema
 
   // Check if the user-supplied dataset contains the required variables

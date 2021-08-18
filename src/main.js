@@ -10,6 +10,3 @@ getGoogleData().then((data) => {
   console.log(datasets);
   populateMap(datasets.activities);
 });
-
-// populateMap(master_data);
-// createMaterials();
