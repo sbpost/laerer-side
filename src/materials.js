@@ -108,6 +108,7 @@ function updateMaterials(material_data) {
           })
           .text((d) => createText(d))
           .attr("class", "materials-label")
+          .attr("class", "textlabel")
           .call((enter) =>
             enter
               .transition(t)
