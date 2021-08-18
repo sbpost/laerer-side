@@ -1,7 +1,7 @@
 const NOT_OFFERED = "";
 
-const GOOGLE_DRIVE_LINK =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmqPShwjf1PloQTHS_f2PHOuGWUH80ud-zfKW5MvzVOQ_EIYG7LHWL_oI9J4luhQ/pub?output=csv";
+const GOOGLE_DRIVE_LINK = "../data/a-k.csv";
+// "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmqPShwjf1PloQTHS_f2PHOuGWUH80ud-zfKW5MvzVOQ_EIYG7LHWL_oI9J4luhQ/pub?output=csv";
 
 // const MATERIALE_LINK = "../data/materiale-kortlægning2.csv";
 const MATERIALE_LINK = "../data/m-k.csv";
