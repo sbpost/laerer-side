@@ -82,7 +82,6 @@ function updateDendogramData() {
 
   // Filter
   dendogram_data = applyFilters(datasets.kommune_data);
-  console.log(dendogram_data);
 
   dendogram_data.forEach((d) => {
     if (!parents.includes(d.Aktør)) {
@@ -181,12 +180,11 @@ function updateDendogramFigure(data) {
         window.open(d.data.link);
       }
     })
-    //	.attr("fill", "red") // TODO
-    // If all themes are chose, make nodes gray. Otherwise, color by theme.
+    // If all themes are chosen, make nodes gray. Otherwise, color by theme.
     .attr("fill", (d) => {
-      return current_selection.tema == THEMES
-        ? "#999"
-        : COLORS_DICT[current_selection.tema];
+      return current_selection.theme == THEMES
+        ? "#999999"
+        : COLORS_DICT[current_selection.theme];
     }) // TODO
     .merge(u_node);
 

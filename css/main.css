@@ -165,11 +165,12 @@
 }
 
 .textlabel {
+    font-family: Nunito, Arial, Helvetica, sans-serif;
   pointer-events: none;
 }
 
 #theme-filter rect:hover {
-    stroke: #83e3bd;
+    stroke: #2d3532;
 	opacity: 1;
 	stroke-width: 3;
 }
@@ -179,7 +180,7 @@
 }
 
 #schoollevel-filter rect:hover {
-    stroke: #83e3bd;
+    stroke: #2d3532;
 	opacity: 1;
 	stroke-width: 3;
 }
@@ -189,7 +190,7 @@
 }
 
 #class-filter circle:hover {
-    stroke: #83e3bd;
+    stroke: #2d3532;
 	fill-opacity: 1;
 	stroke-width: 3;
 }
@@ -205,5 +206,7 @@
 }
 
 .materials-label {
-    font-family: Ubuntu Mono;
+    /*font-family: Ubuntu Mono;*/
+    font-family: Nunito, Arial, Helvetica, sans-serif;
 }
+

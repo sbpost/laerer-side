@@ -69,6 +69,7 @@ function handleFilterClick(event, d) {
   // console.log(applyFilters(datasets.materials));
   //  updateLetters();
   updateMaterials(updateMaterialData());
+  // createDiv(updateMaterialData());
 }
 
 // Create clickable filters -----------------------------------------
@@ -323,12 +324,12 @@ schoollevel_squares
   })
   .attr("height", schoollevel_filter_opts.rect_height)
   .attr("fill", (d) => {
-    return "#e8f9fa";
+    return "#74b2db";
   })
   .attr("fill-opacity", 0.2)
   .attr("stroke-width", 2)
   .attr("stroke", (d) => {
-    return "#e8f9fa";
+    return "#74b2db";
   })
   .classed("selected-filter", true)
   .on("click", handleFilterClick);

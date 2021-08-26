@@ -1,4 +1,6 @@
 // TODO: Refactor code. Make easier to navigate.
+// TODO: Skrive text/box om, så der laves en g som agerer lokalt koordinatsystem.
+// Styr så data gennem g (rect + textstykker)
 function updateMaterialData() {
   material_data = applyFilters(datasets.materials);
   return material_data;
@@ -7,16 +9,16 @@ function updateMaterialData() {
 let mat_opts = {
   space_between_squares: 10,
   space_between_lines: 30,
-  rect_height: 50,
+  rect_height: 110,
   text_margin_left: 10,
   text_margin_right: 10,
-  char_width: 12,
-  enter_x: -200,
+  char_width: 9,
+  enter_x: -1000,
   exit_x: 1800,
 };
 
 let mat_width = 1200;
-let mat_height = 1200;
+let mat_height = 3500;
 
 let materials_svg = d3
   .select("#materials")
@@ -29,7 +31,7 @@ function updateMaterials(material_data) {
 
   let box_tracker = {
     current_line: 0,
-    line_width: 1200,
+    line_width: 1150,
     currently_used: 0,
     on_line: 0,
   };
@@ -38,7 +40,28 @@ function updateMaterials(material_data) {
   material_data.forEach((d) => {
     // CALCULATE X placement:
     // First, calculate box width
-    d.box_width = d.Titel.length * mat_opts.char_width;
+    // The box width depends on the longest string. First, prepare text:
+    let active_themes = [];
+    THEMES.forEach((theme) => {
+      if (d[theme] == 1) {
+        active_themes.push(theme);
+      }
+    });
+
+    d.theme_str = `Temaer: ${active_themes.join(", ")}`;
+    d.keyword_str = `Nøgleord: ${d.Nøgleord}`;
+    d.organizer_str = `Udbyder: ${d.Udbyder}`;
+
+    active_themes = active_themes.join(", ");
+    let longest_str = d3.max([
+      d.Titel.length,
+      d.theme_str.length,
+      d.keyword_str.length,
+      d.Udbyder.length,
+    ]);
+
+    d.box_width = longest_str * mat_opts.char_width;
+
     // Second, see if there is room on current line
     // if not:
     if (d.box_width > box_tracker.line_width - box_tracker.currently_used) {
@@ -56,7 +79,8 @@ function updateMaterials(material_data) {
     // CALCULATE Y placement
     d.y =
       box_tracker.current_line *
-      (mat_opts.rect_height + mat_opts.space_between_lines);
+        (mat_opts.rect_height + mat_opts.space_between_lines) +
+      5;
   });
 
   materials_svg
@@ -66,118 +90,179 @@ function updateMaterials(material_data) {
       (enter) =>
         enter
           .append("rect")
+          .attr("rx", 8)
+          .attr("ry", 8)
           .on("mouseover", mouseOverHandlerMat)
           .on("mouseout", mouseOutHandlerMat)
           .on("click", clickHandlerMat)
-          .attr("fill", "blue")
+          .attr("fill", "white")
           .attr("stroke", "black")
-          .attr("opacity", 0.2)
+          .attr("opacity", 0.5)
           .attr("x", mat_opts.enter_x)
           .attr("y", (d) => d.y)
           .attr("width", (d) => d.box_width)
           .attr("height", mat_opts.rect_height)
           .call((enter) => enter.transition(t).attr("x", (d) => d.x)),
       (update) =>
-        update.attr("fill", "black").call((update) =>
+        update.call((update) =>
           update
             .transition(t)
             .attr("x", (d) => d.x)
             .attr("y", (d) => d.y)
         ),
       (exit) =>
-        exit
-          .attr("fill", "brown")
-          .call((exit) =>
-            exit.transition(t).attr("x", mat_opts.exit_x).remove()
-          )
+        exit.call((exit) =>
+          exit.transition(t).attr("x", mat_opts.exit_x).remove()
+        )
     );
 
+  // Titles
   materials_svg
-    .selectAll("text")
+    .selectAll(".titles")
     .data(material_data, (d) => d.Titel)
     .join(
       (enter) =>
         enter
           .append("text")
-          .attr("fill", "green")
+          .attr("fill", "black")
+          .attr("font-weight", "bold")
           .attr("x", mat_opts.enter_x)
           .attr("y", (d, i) => {
             return d.y + 20;
-            //             i * (mat_opts.rect_height + mat_opts.space_between_lines) + 20
-            //           );
           })
           .text((d) => createText(d))
-          .attr("class", "materials-label")
           .attr("class", "textlabel")
+          .attr("class", "titles")
+          // .append("text")
+          // .text((d) => createText(d))
           .call((enter) =>
             enter
               .transition(t)
-              // .attr("x", (d, i) => 10 + mat_opts.text_margin_left)
               .attr("x", (d) => d.x + mat_opts.text_margin_left)
           ),
       (update) =>
-        update.attr("fill", "black").call((update) =>
+        update.call((update) =>
           update
             .transition(t)
             .attr("x", (d) => d.x + mat_opts.text_margin_left)
-            // .attr("x", (d, i) => 10 + mat_opts.text_margin_left)
-            .attr(
-              "y",
-              (d) => d.y + 20
-              // (d, i) =>
-              //               i * (mat_opts.rect_height + mat_opts.space_between_lines) + 20
-            )
+            .attr("y", (d) => d.y + 20)
         ),
       (exit) =>
-        exit
-          .attr("fill", "brown")
-          .call((exit) =>
-            exit.transition(t).attr("x", mat_opts.exit_x).remove()
-          )
+        exit.call((exit) =>
+          exit.transition(t).attr("x", mat_opts.exit_x).remove()
+        )
     );
 
-  // Create squares
-  /**
   materials_svg
-    .selectAll("rect")
+    .selectAll(".udbyder")
     .data(material_data, (d) => d.Titel)
     .join(
       (enter) =>
         enter
-          .append("rect")
-          .attr("fill", "#b9eae6")
-          .attr("width", function (d) {
-            return d.Titel.length * 10 + mat_opts.text_margin_left * 2;
+          .append("text")
+          .attr("fill", "black")
+          //         .attr("font-weight", "bold")
+          .attr("x", mat_opts.enter_x)
+          .attr("y", (d, i) => {
+            return d.y + 40;
           })
-          .attr("height", mat_opts.rect_height)
-          .attr("y", function (d, i) {
-            return (
-              i * (mat_opts.rect_height + mat_opts.space_between_squares) +
-              mat_opts.space_between_squares
-            );
-          })
-          .attr("x", -200)
-          .attr("stroke", "black")
+          .text((d) => d.Udbyder)
+          .attr("class", "textlabel")
+          .attr("class", "udbyder")
+          // .append("text")
+          // .text((d) => createText(d))
           .call((enter) =>
-            enter.transition(t).attr("x", function (d, i) {
-              return mat_opts.rect_height;
-            })
+            enter
+              .transition(t)
+              .attr("x", (d) => d.x + mat_opts.text_margin_left)
           ),
-      (update) => update.attr("fill", "red")
-    )
-    .attr("class", "bar")
-    .on("mouseover", mouseOverHandler)
-    .on("mouseout", mouseOutHandler)
-    .on("click", function (event, d) {
-      if (d.Link) {
-        window.open(d.Link);
-      }
-    }); **/
+      (update) =>
+        update.call((update) =>
+          update
+            .transition(t)
+            .attr("x", (d) => d.x + mat_opts.text_margin_left)
+            .attr("y", (d) => d.y + 40)
+        ),
+      (exit) =>
+        exit.call((exit) =>
+          exit.transition(t).attr("x", mat_opts.exit_x).remove()
+        )
+    );
+
+  materials_svg
+    .selectAll(".kws")
+    .data(material_data, (d) => d.Titel)
+    .join(
+      (enter) =>
+        enter
+          .append("text")
+          .attr("fill", "black")
+          //         .attr("font-weight", "bold")
+          .attr("x", mat_opts.enter_x)
+          .attr("y", (d, i) => {
+            return d.y + 80;
+          })
+          .text((d) => d.keyword_str)
+          .attr("class", "textlabel")
+          .attr("class", "kws")
+          // .append("text")
+          // .text((d) => createText(d))
+          .call((enter) =>
+            enter
+              .transition(t)
+              .attr("x", (d) => d.x + mat_opts.text_margin_left)
+          ),
+      (update) =>
+        update.call((update) =>
+          update
+            .transition(t)
+            .attr("x", (d) => d.x + mat_opts.text_margin_left)
+            .attr("y", (d) => d.y + 80)
+        ),
+      (exit) =>
+        exit.call((exit) =>
+          exit.transition(t).attr("x", mat_opts.exit_x).remove()
+        )
+    );
+
+  materials_svg
+    .selectAll(".themetext")
+    .data(material_data, (d) => d.Titel)
+    .join(
+      (enter) =>
+        enter
+          .append("text")
+          .attr("fill", "black")
+          //         .attr("font-weight", "bold")
+          .attr("x", mat_opts.enter_x)
+          .attr("y", (d, i) => {
+            return d.y + 100;
+          })
+          .text((d) => d.theme_str)
+          .attr("class", "textlabel")
+          .attr("class", "themetext")
+          // .append("text")
+          // .text((d) => createText(d))
+          .call((enter) =>
+            enter
+              .transition(t)
+              .attr("x", (d) => d.x + mat_opts.text_margin_left)
+          ),
+      (update) =>
+        update.call((update) =>
+          update
+            .transition(t)
+            .attr("x", (d) => d.x + mat_opts.text_margin_left)
+            .attr("y", (d) => d.y + 100)
+        ),
+      (exit) =>
+        exit.call((exit) =>
+          exit.transition(t).attr("x", mat_opts.exit_x).remove()
+        )
+    );
 }
 
 function mouseOverHandlerMat(event, d) {
-  // If the node has a link, make slighter larger + change color
-  // if the node does not have a link, make different color
   let g = d3.select(event.target.parentElement);
   let rect = d3.select(event.target);
   rect.classed("materials-highlighted", true);
@@ -198,51 +283,7 @@ function clickHandlerMat(event, d) {
 function createText(d) {
   // Get header:
   let header = d.Titel;
-
-  // Get eubtitle:
-  let active_themes = [];
-  THEMES.forEach((theme) => {
-    if (d[theme] == 1) {
-      active_themes.push(theme);
-    }
-  });
-  active_themes = active_themes.join(", ");
-
   let return_string = header;
 
   return return_string;
 }
-
-/**
-  // Create text
-  let materials_text = materials_svg
-    .selectAll("text")
-    .data(material_data)
-    .enter()
-    .append("text");
-
-  materials_text
-    .attr("x", function (d, i) {
-      return mat_opts.rect_height + mat_opts.text_margin_left;
-    })
-    .attr("y", function (d, i) {
-      return (
-        i * (mat_opts.rect_height + mat_opts.space_between_squares) +
-        mat_opts.space_between_squares +
-        15
-      );
-    })
-    //   .attr("font-weight", "bold")
-    .attr("font-family", "Lucida Console")
-    .attr("dy", ".31em")
-    .attr("class", "textlabel")
-    .text((d) => d.Titel);
-
-  // TODO: update pattern
-  console.log(datasets.materials);
-}
-**/
-
-// Initiate canvas
-// let width = 960
-// let height = 950

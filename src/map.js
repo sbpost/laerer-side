@@ -98,6 +98,7 @@ function selectFeature(e) {
     $("#theme-filter-row").removeClass("hidden");
     $("#class-filter-row").removeClass("hidden");
     $("#schoollevel-filter-row").removeClass("hidden");
+    $("#material-row").removeClass("hidden");
   }
 
   // For each click, unselect previous selection

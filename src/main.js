@@ -7,6 +7,5 @@
 let datasets;
 getGoogleData().then((data) => {
   datasets = data;
-  console.log(datasets);
   populateMap(datasets.activities);
 });

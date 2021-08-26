@@ -46,8 +46,6 @@ const getGoogleData = async () => {
   // Remove overlay
   $("#map-spinner").addClass("hidden");
 
-  console.log(activity_data);
-  console.log(materials_data);
   // Return both datasets as an object
   return {
     activities: activity_data,
