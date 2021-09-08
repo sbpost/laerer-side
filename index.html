@@ -45,7 +45,10 @@
       <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/concito-dgr" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
           <img src="imgs/DGR_logo_cirkel_negativ.png" alt="CONCITO logo" style="width:80px;height:80x;">
-          <span class="fs-4 title">Den Grønne Rygrad: Udkast</span>
+          <div>
+          <span class="fs-4 title">Den Grønne Rygrads lærerværktøj</span>
+          <h3 class="subtitle">Find inspiration til din bæredygtighedsundervisning her</h3>
+          </div>
         </a>
     </div>
 
@@ -66,7 +69,10 @@
           <p>Der er to knapper i øverste højre hjørne. Hvis du trykker på den første knap kan du indlæse en lokal fil. Filen skal indeholde kortlægningsdata i csv format. Du kan også hente en version af kortlægningsdataen der ligger online ved at tykke på "Hent data fra nettet".</p> </div>
     </div> </div> -->
   </div> 
-<div class="w-100 p-3" style="height: 50px; background-color: #fcefe4;"></div>
+ <!-- <div class="w-100 p-3" style="height: 50px; background-color: #fcefe4;"></div> -->
+  <div class="row hidden sectionheader" id="filter-header">
+    <div class="col-12">Vælg tema og klassetrin:</div>
+  </div>
   <div class="row hidden" id="theme-filter-row">
     <div class="col-12 filters" id="theme-filter"></div>
   </div>
@@ -76,16 +82,17 @@
   <div class="row hidden" id="class-filter-row">
     <div class="col-12 filters"  id="class-filter"></div>
   </div>
- <!-- <div class="row" id="material2-row">
-    <div class="col-12" id="materials2" style="text-align: center;"></div>
-  </div> -->
+  <div class="row hidden sectionheader" id="dendo-header">
+    <div class="col-12">Lokale undervisningstilbud:</div>
+  </div>
   <div class="row hidden" id="dendo-row">
     <div class="col-12" id="tree-chart" style="text-align: center;"></div>
   </div>
-  <div class="row hidden" id="material-row">
+    <div class="row hidden sectionheader" id="material-row">
+    <div class="col-12">Undervisningsmaterialer:</div>
+  </div>
     <div class="col-12" id="materials" style="text-align: center;"></div>
   </div>
-
 
   <!-- Bootstrap Bundle with Popper -->
   <script

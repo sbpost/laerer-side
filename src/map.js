@@ -94,11 +94,12 @@ function selectFeature(e) {
   // When first selecting a layer, remove the hidden attribute
   // of the chart areas.
   if (!active_layer) {
-    $("#dendo-row").removeClass("hidden");
-    $("#theme-filter-row").removeClass("hidden");
-    $("#class-filter-row").removeClass("hidden");
-    $("#schoollevel-filter-row").removeClass("hidden");
-    $("#material-row").removeClass("hidden");
+     $("#dendo-row").removeClass("hidden");
+     $("#theme-filter-row").removeClass("hidden");
+     $("#class-filter-row").removeClass("hidden");
+     $("#schoollevel-filter-row").removeClass("hidden");
+     $("#material-row").removeClass("hidden");
+    $(".sectionheader").removeClass("hidden");
   }
 
   // For each click, unselect previous selection

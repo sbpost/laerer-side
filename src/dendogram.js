@@ -1,6 +1,4 @@
 // Define some color constants
-// const NODE_FILL = "#536155"
-// const NODE_STROKE = "#536155"
 
 function depth_scale(depth) {
   return depth == 2 ? 100 : 0;
@@ -19,6 +17,8 @@ function project(x, y, depth) {
 // let height = 950
 let width = 1200;
 let height = 1200;
+// let width = 1000;
+// let height = 1000;
 let radius = 390;
 let radius_scaling = 1;
 var svg = d3
@@ -173,6 +173,7 @@ function updateDendogramFigure(data) {
     .style("opacity", 0.0)
     .append("circle")
     .attr("r", 6)
+ //   .attr("fill", "#999")
     .on("mouseover", mouseOverHandler)
     .on("mouseout", mouseOutHandler)
     .on("click", function (event, d) {
@@ -182,8 +183,8 @@ function updateDendogramFigure(data) {
     })
     // If all themes are chosen, make nodes gray. Otherwise, color by theme.
     .attr("fill", (d) => {
-      return current_selection.theme == THEMES
-        ? "#999999"
+      return current_selection.theme.length == THEMES.length
+        ? "#999"
         : COLORS_DICT[current_selection.theme];
     }) // TODO
     .merge(u_node);
@@ -208,6 +209,18 @@ function updateDendogramFigure(data) {
     .attr("class", "h2")
     .style("font-family", "Nunito")
     .text(active_layer + " kommune"); // active_layer is the name of the selected region
+  // If there is no observations, show some text
+  // if (!data.children) {
+  // svg
+  //   .append("text")
+  //   .attr("x", 0)
+  //   .attr("y", 0)
+  //   .attr("text-anchor", "middle")
+  //   .attr("dy", "0.31em")
+  //   .attr("class", "h2")
+  //   .style("font-family", "Nunito")
+  //   .text("Der er ikke nogle aktiviteter i kommunen der matcher de valgte temaer og klassetrin."); // active_layer is the name of the selected region
+  // }
 }
 
 // Define a handle for mouse hover events

@@ -1,5 +1,23 @@
 .title {
     font-family: 'PT Serif', serif;
+    position: relative
+}
+
+h3 {
+    position: relative
+ /*   font: 14px/16px Nunito, Arial, Helvetica, sans-serif; */
+}
+
+.subtitle {
+    font: 18px 'PT Serif', serif;
+}
+
+.sectionheader {
+    font: 25px 'PT Serif', serif;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 15px;
+  padding-left: 120px;
 }
 
 #kommune-map { height: 600px; }
