@@ -1,11 +1,16 @@
 // HANDLE DATA UPLOAD -----------------------------------------------
-// let master_data; // To be able to access it outside of the reading function
-// let kommune_data; // To be able to access it outside of the filtering function
-// let materiale_data;
+
+// TODO: Fix manual file upload. Use promises.
+// https://stackoverflow.com/questions/11829537/html5-filereader-how-to-return-result
+
 
 // Grab data
 let datasets;
-getGoogleData().then((data) => {
-  datasets = data;
-  populateMap(datasets.activities);
-});
+
+function getDataOnline() {
+  getGoogleData().then((data) => {
+    datasets = data;
+    populateMap(datasets.activities);
+  });
+}
+

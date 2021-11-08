@@ -14,6 +14,7 @@
 const getGoogleData = async () => {
   // $("#waiter").addClass("hidden");
   $("#map-spinner").removeClass("hidden");
+  $("#waiter").addClass("hidden");
 
   let activity_data = await d3
     .csv(
@@ -26,17 +27,6 @@ const getGoogleData = async () => {
 
   activity_data.forEach((d) => fixData(d, "")); // fix klassetrin + tema
 
-  let materials_data = await d3
-    .csv(
-      // Published csv file w materials
-      MATERIALE_LINK
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  materials_data.forEach((d) => fixData(d, "")); // fix klassetrin + tema
-
   // Check if the user-supplied dataset contains the required variables
   // Go through each of the required columns and check if they are in the
   // dataset. REQUIRED_COLUMNS is defined in constants.js.
@@ -46,12 +36,29 @@ const getGoogleData = async () => {
   // Remove overlay
   $("#map-spinner").addClass("hidden");
 
-  // Return both datasets as an object
   return {
-    activities: activity_data,
-    materials: materials_data,
+    activities: activity_data
+   // materials: materials_data,
   };
 };
+
+// $(document).ready(function(){
+  $('#formFile').on('change', function(e){
+    readFile(this.files[0], function(e) {
+      let activity_data = d3.csvParse(e.target.result); // read uploaded file
+      activity_data.forEach((d) => fixData(d, "")); // fix klassetrin + tema
+      datasets = {activities: activity_data}
+      populateMap(datasets.activities);
+   $("#waiter").addClass("hidden");
+        });
+    });
+// });
+
+function readFile(file, onLoadCallback){
+    var reader = new FileReader();
+    reader.onload = onLoadCallback;
+    reader.readAsText(file);
+}
 
 // Check data -------------------------------------------------------
 

@@ -46,11 +46,17 @@
         <a href="/concito-dgr" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
           <img src="imgs/DGR_logo_cirkel_negativ.png" alt="CONCITO logo" style="width:80px;height:80x;">
           <div>
-          <span class="fs-4 title">Den Grønne Rygrads lærerværktøj</span>
-          <h3 class="subtitle">Find inspiration til din bæredygtighedsundervisning her</h3>
+          <span class="fs-4 title">Den Grønne Rygrad</span>
+          <h3 class="subtitle">Kommuneoverblik</h3>
           </div>
         </a>
-    </div>
+        <div id="inputdiv" class="col-5">
+          <div class="input-group d-flex align-items-center mb-3 mb-md-0 me-md-auto align-middle">
+            <!--<input type="file" class="form-control" id="formFile" onchange="loadFile()"> -->
+            <input type="file" class="form-control" id="formFile">
+            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" onclick="getDataOnline()">Hent data fra nettet</button>
+          </div>
+        </div>
 
     </header>
 </div>
@@ -63,12 +69,24 @@
         <div class="spinner-border hidden" id="map-spinner" role="status">
         </div>
       </div>
-    <!--  <div class="overlay" id="waiter">
+   <div class="overlay" id="waiter">
         <div class="overlay-message">
           <h1>Indlæs venligst et datasæt.</h1>
           <p>Der er to knapper i øverste højre hjørne. Hvis du trykker på den første knap kan du indlæse en lokal fil. Filen skal indeholde kortlægningsdata i csv format. Du kan også hente en version af kortlægningsdataen der ligger online ved at tykke på "Hent data fra nettet".</p> </div>
-    </div> </div> -->
-  </div> 
+    </div> </div>
+  </div>
+  <div class="row hidden" id="hc-row">
+    <div class="col-6">
+      <figure class="highcharts-figure">
+        <div id="hc-tema"></div>
+      </figure>
+    </div>
+    <div class="col-6">
+      <figure class="highcharts-figure">
+        <div id="hc-klasse"></div>
+      </figure>
+    </div>
+  </div>
  <!-- <div class="w-100 p-3" style="height: 50px; background-color: #fcefe4;"></div> -->
   <div class="row hidden sectionheader" id="filter-header">
     <div class="col-12">Vælg tema og klassetrin:</div>
@@ -83,17 +101,12 @@
     <div class="col-12 filters"  id="class-filter"></div>
   </div>
   <div class="row hidden sectionheader" id="dendo-header">
-    <div class="col-12">Lokale undervisningstilbud:</div>
+    <div class="col-10">Lokale undervisningstilbud:</div>
+    <div class="col-2"><button id="pdf-button" type="button" class="btn btn-outline-secondary">Gem som PDF</button></div>
   </div>
   <div class="row hidden" id="dendo-row">
     <div class="col-12" id="tree-chart" style="text-align: center;"></div>
   </div>
-    <div class="row hidden sectionheader" id="material-row">
-    <div class="col-12">Undervisningsmaterialer:</div>
-  </div>
-    <div class="col-12" id="materials" style="text-align: center;"></div>
-  </div>
-
   <!-- Bootstrap Bundle with Popper -->
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
@@ -123,13 +136,23 @@
   <!-- Google -->
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
+  <!-- Highcharts -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+  <!-- Export to SVG -->
+
+
   <!-- Custom JS -->
   <script src="src/constants.js"></script>
   <script src="src/filters.js"></script>
   <script src="src/map.js"></script>
   <script src="src/dendogram.js"></script>
   <script src="src/handle_data.js"></script>
-  <script src="src/materials.js"></script>
+  <script src="src/hcharts.js"></script>
+ <!--<script src="src/heatmap.js"></script>-->
  <script src="src/divs.js"></script> 
   <script src="src/main.js"></script>
 
