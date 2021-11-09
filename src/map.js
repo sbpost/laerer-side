@@ -49,6 +49,9 @@ info.onAdd = function (map) {
 
 // method that updates the control based on feature properties passed
 info.update = function (props) {
+  //    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+  //        '<b>' + props.LAU_NAME + '</b><br />' + ' people / mi<sup>2</sup>'
+  //       : 'Hover over a state'j;
   this._div.innerHTML =
     "<h4>" +
     (active_layer
@@ -94,7 +97,6 @@ function selectFeature(e) {
      $("#dendo-row").removeClass("hidden");
      $("#theme-filter-row").removeClass("hidden");
      $("#class-filter-row").removeClass("hidden");
-     $("#hc-row").removeClass("hidden");
      $("#schoollevel-filter-row").removeClass("hidden");
      $("#material-row").removeClass("hidden");
     $(".sectionheader").removeClass("hidden");
@@ -124,9 +126,6 @@ function selectFeature(e) {
 
   // Filter data after clicking
   datasets.kommune_data = filterByKommune(datasets.activities);
-  createKlasseChart(active_layer);
-  createTemaChart(active_layer);
-  // createHeatMap(active_layer)
   updateDendogramFigure(updateDendogramData());
 }
 

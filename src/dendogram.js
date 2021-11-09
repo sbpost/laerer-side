@@ -237,7 +237,6 @@ function mouseOverHandler(event, d) {
   // if the node does not have a link, make different color
   let g = d3.select(event.target.parentElement);
   g.classed("highlighted", true);
-
   // Only add highlihting to leaf-nodes:
   if (g.classed("node--leaf")) {
   if (g.classed("node--linked")) {
@@ -253,9 +252,3 @@ function mouseOutHandler(event, d) {
   let g = d3.select(event.target.parentElement);
   g.classed("highlighted", false);
 }
-
-// Function that handles export as PDF
-d3.select("#pdf-button").on('click', function(){
-  // dendo_svg = d3.select("")
-  console.log(svg.node())
-})

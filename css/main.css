@@ -29,7 +29,6 @@ h3 {
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-
 .info h4 {
     margin: 0 0 5px;
     color: #777;
@@ -40,13 +39,6 @@ h3 {
     max-width: 800px;
     margin: 1em auto;
 }
-
-#inputdiv {
-    /* padding-top: 15px; */
-        display: flex;
-    align-items: center;
-}
-
 
 #container {
     height: 400px;
@@ -190,10 +182,6 @@ h3 {
   /*  stroke: #000000; */
 }
 
-.textlabel {
-    font-family: Nunito, Arial, Helvetica, sans-serif;
-  pointer-events: none;
-}
 
 #theme-filter rect:hover {
     stroke: #2d3532;
@@ -236,3 +224,23 @@ h3 {
     font-family: Nunito, Arial, Helvetica, sans-serif;
 }
 
+.textlabel {
+    font-family: Nunito, Arial, Helvetica, sans-serif;
+    pointer-events: none;
+}
+
+.kws {
+    pointer-events: none;
+}
+
+.themetext {
+    pointer-events: none;
+}
+
+.udbyder {
+    pointer-events: none;
+}
+
+.titles {
+    pointer-events: none;
+}
