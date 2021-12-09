@@ -1,3 +1,10 @@
+// TODO: Make container-height variable depending on the number of
+// materials.
+// The number of materials can be overwhelming before filtering
+// (because they are not filtered by region). It was requested that
+// materials should not show up before filtering.
+
+
 let filter_options = {
   class: [
     "0. klasse",
@@ -30,46 +37,75 @@ let filter_options = {
 };
 
 // Selection container for dendogram filters:
-// Start with all temaer + all klasser selected.
+// Start with all themes and all classes selected.
 let current_selection = {
   class: filter_options.class,
   theme: filter_options.theme,
   schoollevel: filter_options.schoollevel,
 };
 
-// FUNCTIONS
+
 function handleFilterClick(event, d) {
+  /** This function handles the filtering operation that happens when a user
+  * clicks on one of the filters above the dendogram. The argument `d` is the
+  * the text on the filter's 'button'.
+  *
+  * If all filters are selected (i.e. all observations are used) a click on a
+  * 'filter button' will unselect all other filters except the one clicked on.
+  * If all filters are not selected, clicking an unselected filter will add
+  * this to the current filtering (filter-1 AND filter-2 AND ... etc).
+  *
+  * The special case of "Alle" will select all filters in the filtering category
+  * (class, theme, schoollevel), no matter how many filters are selected.
+  */
+
+  // Get the filter category: either class, theme, or schoollevel.
   let filter_type = event.currentTarget.classList;
-  filter_type.remove("selected-filter");
-
-  // set all filters as unselected:
-  d3.selectAll("." + filter_type[0]).classed("selected-filter", false);
-  // set clicked filter as selected:
-  d3.select(event.currentTarget).classed("selected-filter", true);
-
-  // First, figure out which type of filter has been clicked on
+  filter_type.remove("selected-filter"); // `filter_type` is used to grab elements
+  // in the D3 model.
   let filter_category = filter_type[0].replace("-filter", "");
 
-  // set filtering tema-set to be selected filter:
-  // in the special case that "Alle" filter is selected,
-  // set all themes to be selected.
+  // Grab the clicked filter-name.
+  // Classes use a shorter name on the filter so they need to filter by
+  // the actual name used in the data instead of `d` (which is the
+  // text on the filter).
+  let selected_filter = filter_category == "class" ? filter_options.classlabel[d] : d;
+
+  // If all filters are selected, select only filter just clicked:
+  if (filter_options[filter_category] == current_selection[filter_category]) {
+
+    current_selection[filter_category] = [selected_filter]
+
+    d3.selectAll("." + filter_type[0]).classed("selected-filter", false); // Unselect all in category visually
+    d3.select(event.currentTarget).classed("selected-filter", true); // Select target
+
+    }
+  // If the clicked-on filter is already selected, unselect it.
+  else if (current_selection[filter_category].includes(selected_filter)) {
+
+    current_selection[filter_category] = current_selection[filter_category].filter(e => { return e !== selected_filter })
+    d3.select(event.currentTarget).classed("selected-filter", false); // Unselect target
+
+  } // Finally, if the current filter is not selected, add it to current selection:
+  else {
+    current_selection[filter_category].push(selected_filter)
+    d3.select(event.currentTarget).classed("selected-filter", true); // Select target
+
+  }
+
+  // In the special case of "alle"-filter buttons, make all filters in the current
+  // type 'selected' no matter the status of the other filters.
   if (d == "Alle") {
     current_selection[filter_category] = filter_options[filter_category];
-
-    d3.selectAll("." + filter_type[0]).classed("selected-filter", true);
-  } else {
-    if (filter_category == "class") {
-      current_selection[filter_category] = [filter_options.classlabel[d]];
-    } else {
-      current_selection[filter_category] = [d];
-    }
+    d3.selectAll("." + filter_type[0]).classed("selected-filter", true); // Select all in category
   }
-  // Update figure
+
+  // Filter data and update figure:
   updateDendogramFigure(updateDendogramData());
-  // console.log(applyFilters(datasets.materials));
-  //  updateLetters();
+  // remove "hidden" for materials row:
+  $("#material-row").removeClass("hidden");
   updateMaterials(updateMaterialData());
-  // createDiv(updateMaterialData());
+
 }
 
 // Create clickable filters -----------------------------------------
@@ -110,7 +146,7 @@ let class_svg = d3
   .attr("width", class_filter_options.filter_width)
   .attr("height", class_filter_options.filter_height);
 
-// Create and append the rectangles for the klasse filter
+// Create and append the circles for the class filter:
 let class_circles = class_svg
   .selectAll("g")
   .data(class_filter_array)
@@ -118,7 +154,6 @@ let class_circles = class_svg
   .append("circle");
 
 class_circles
-  //.attr("class", "sphere")
   .attr("class", "class-filter")
   .attr("r", class_filter_options.circle_r)
   .attr("cx", function (d, i) {
@@ -244,7 +279,6 @@ let theme_labels = theme_svg
   .append("text");
 
 theme_labels
-  //.attr("x", function(d, i) { return rect_width * 1.5 * i + rect_width / 2 + margin.left})
   .attr("x", function (d, i) {
     return (
       (theme_filter_options.rect_width +
@@ -351,7 +385,6 @@ schoollevel_labels
       schoollevel_filter_opts.rect_width / 2
     );
   })
-  // .attr("x", function(d, i) { return (rect_width + space_between_squares) * i + rect_width / 2 + indent + rect_width / 2})
   .attr("y", function (d, i) {
     return 0 + margin.top + schoollevel_filter_opts.rect_height / 2;
   })

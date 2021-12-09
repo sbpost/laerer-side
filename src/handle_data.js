@@ -1,16 +1,28 @@
-// This file contains functions that handle data in a general sense.
-// That is, functionality to grab data, clean data, and filter data.
+/** This file contains the main functions that get, format, and clean
+ * data. The getDataOnline() function is called at the end of the file
+ * and kicks the page off.
+ */
 
-// Grab data --------------------------------------------------------
+// `datatsets` is a container used for the map-, activity nad materials
+// data.
+let datasets;
+
+//  Grab data --------------------------------------------------------
 
 // HANDLE GOOGLE SHEETS UPLOAD
-// Very simple function that just grabs the google sheets data (+ sets a
-// spinner that indicates that the data is being grabbed).
 
-// TODO: Make it work with data that is not accessable just by the link
-// TODO: Make the data checking workflow better: wrap all the "start up" mechanics in a function,
-// which is then called by either getGoogleData or upload function
-// TODO: Create some error message if getting it from sheets does not work
+// Function that is called when clicking on the "get data" button.
+// The function populates the map, which sets the rest of the
+// page in motion. Note: this function is called at the end of the file.
+function getDataOnline() {
+  getGoogleData().then((data) => {
+    datasets = data;
+    populateMap(datasets.activities);
+  });
+}
+
+// Function that just grabs the google sheets data (+ sets a spinner that
+// indicates that the data is being grabbed).
 const getGoogleData = async () => {
   // $("#waiter").addClass("hidden");
   $("#map-spinner").removeClass("hidden");
@@ -108,6 +120,11 @@ function reportOnDataCheck(data_check) {
 }
 
 // Clean data -------------------------------------------------------
+// Values in the original data aren't consistent. If there is
+// no value entered in a column (a "category"), the category activity is
+// assumed to be inactive in the column (0). Fx, not offered to a specific
+// class. Otherwise it is assumed to be active (1). The 0/1-values are used when
+// filtering the data.
 
 function fixData(d, not_offered) {
   // Fix classes
@@ -181,3 +198,6 @@ function applyFilters(unfiltered_data) {
 
   return filtered_data;
 }
+
+// Initiate getting the data:
+getDataOnline()

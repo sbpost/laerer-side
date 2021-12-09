@@ -30,9 +30,9 @@
     <!-- Avenir is not open source, so Nunito is used -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
 
     <!-- Custom styles for header template -->
     <link href="css/headers.css" rel="stylesheet">
@@ -63,12 +63,7 @@
         <div class="spinner-border hidden" id="map-spinner" role="status">
         </div>
       </div>
-    <!--  <div class="overlay" id="waiter">
-        <div class="overlay-message">
-          <h1>Indlæs venligst et datasæt.</h1>
-          <p>Der er to knapper i øverste højre hjørne. Hvis du trykker på den første knap kan du indlæse en lokal fil. Filen skal indeholde kortlægningsdata i csv format. Du kan også hente en version af kortlægningsdataen der ligger online ved at tykke på "Hent data fra nettet".</p> </div>
-    </div> </div> -->
-  </div> 
+  </div>
  <!-- <div class="w-100 p-3" style="height: 50px; background-color: #fcefe4;"></div> -->
   <div class="row hidden sectionheader" id="filter-header">
     <div class="col-12">Vælg tema og klassetrin:</div>
@@ -88,9 +83,10 @@
   <div class="row hidden" id="dendo-row">
     <div class="col-12" id="tree-chart" style="text-align: center;"></div>
   </div>
-    <div class="row hidden sectionheader" id="material-row">
+    <div class="row hidden sectionheader" id="material-header">
     <div class="col-12">Undervisningsmaterialer:</div>
   </div>
+    <div class="row hidden" id="material-row">
     <div class="col-12" id="materials" style="text-align: center;"></div>
   </div>
 
@@ -130,8 +126,6 @@
   <script src="src/dendogram.js"></script>
   <script src="src/handle_data.js"></script>
   <script src="src/materials.js"></script>
- <script src="src/divs.js"></script> 
-  <script src="src/main.js"></script>
 
 </body>
 </html>

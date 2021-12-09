@@ -1,9 +1,15 @@
-// INITIALIZE MAP (BACKGROUND) --------------------------------------
+/** This file handles the main entry-point to the site, which is the
+ * Leaflet map with regions. When clicking on a feature (after getting
+ * data into the map) the `selectFeature` function is called. This
+ * function filters the activity data and removes the "hidden" class
+ * from the charts and the dendogram. */
 
+// INITIALIZE MAP (BACKGROUND) --------------------------------------
+// Is 'trial tier', should be changed
 let mapboxAccessToken =
   "pk.eyJ1IjoiYmFsY2hlbnBvc3QiLCJhIjoiY2tqaWJ1bXRsMmd4MjMxc2NobWd3Nnk2dyJ9.1IiEC7KCRVz1sQsnA562Yw";
 
-let map = L.map("kommune-map").setView([56.26, 9.5], 7);
+let map = L.map("kommune-map", {attributionControl: false}).setView([56.26, 9.5], 7);
 let geojson;
 let active_layer;
 
@@ -49,9 +55,6 @@ info.onAdd = function (map) {
 
 // method that updates the control based on feature properties passed
 info.update = function (props) {
-  //    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-  //        '<b>' + props.LAU_NAME + '</b><br />' + ' people / mi<sup>2</sup>'
-  //       : 'Hover over a state'j;
   this._div.innerHTML =
     "<h4>" +
     (active_layer
@@ -97,8 +100,9 @@ function selectFeature(e) {
      $("#dendo-row").removeClass("hidden");
      $("#theme-filter-row").removeClass("hidden");
      $("#class-filter-row").removeClass("hidden");
+     $("#hc-row").removeClass("hidden");
      $("#schoollevel-filter-row").removeClass("hidden");
-     $("#material-row").removeClass("hidden");
+ //    $("#material-row").removeClass("hidden");
     $(".sectionheader").removeClass("hidden");
   }
 
@@ -124,7 +128,7 @@ function selectFeature(e) {
     layer.bringToFront();
   }
 
-  // Filter data after clicking
+  // Filter data after clicking and update charts a
   datasets.kommune_data = filterByKommune(datasets.activities);
   updateDendogramFigure(updateDendogramData());
 }
@@ -141,9 +145,6 @@ function hoverControl(e) {
   }
 
   e.target.bindTooltip(e.target.feature.properties.LAU_NAME).openTooltip();
-
-  //    info.update(layer.feature.properties);
-  //    layer.bindTooltip(layer.feature.properties.LAU_NAME);
 }
 
 // Remove the highlighting when not hovering over a layer, except if
@@ -164,7 +165,6 @@ function onEachFeature(feature, layer) {
   layer.on({
     mouseover: hoverControl,
     mouseout: hoverExitControl,
-    //	click: zoomToFeature
     click: selectFeature,
   });
 }
